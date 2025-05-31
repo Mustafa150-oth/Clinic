@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تقديم شكوى</title>
+    <style>
+        body {
+            background-color: #fcefdc;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            max-width: 600px;
+            margin: 80px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+   nav {
+      background-color: #198754; /* لون أخضر داكن مثل Bootstrap */
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: flex-end;
+      list-style: none;
+      margin: 0;
+      padding: 0 20px;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: #146c43; /* خلفية غامقة أنيقة */
+    }
+
+    nav .brand {
+      color: bisque;
+      font-weight: bold;
+      margin-left: auto;
+      padding: 0 20px;
+    }
+
+        h1 {
+            color: #198754;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 120px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #198754;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #146c43;
+        }
+    </style>
+</head>
+<body>
+
+     <nav>
+    <span class="brand">  صفحة  اضافة تعليق</span>
+    <ul>
+     <li> <a href="{% url 'main_page' %}" >الصفحة الرئيسية</a> </li>
+      <li><a href="{% url 'complaint' %}" class="active">صفحة التعليقات</a></li>
+      
+      <li><li><a href="{% url 'reserve' %}">حجز المواعيد</a></li>
+    </li>
+    </ul>
+  </nav>
+    <div class="container">
+        <h1>نموذج تقديم تعليقات</h1>
+        <form form method="post" action="{% url 'submit_complaint' %}">
+            {% csrf_token %}
+            <label for="name">الاسم:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">البريد الإلكتروني:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">محتوى التعليق:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">إرسال تعليق</button>
+        </form>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 عيادة الدكتور علي. جميع الحقوق محفوظة.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>حجز المواعيد</title>
+  <style>
+    body {
+      background-color: wheat;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar styling */
+    nav {
+      background-color: #198754; /* لون أخضر داكن مثل Bootstrap */
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: flex-end;
+      list-style: none;
+      margin: 0;
+      padding: 0 20px;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: #146c43; /* خلفية غامقة أنيقة */
+    }
+
+    nav .brand {
+      color: bisque;
+      font-weight: bold;
+      margin-left: auto;
+      padding: 0 20px;
+    }
+
+    .container {
+      display: flex;
+      margin-top: 72px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    #r2 {
+      border-radius: 20px;
+      background-color: white;
+      width: 400px;
+    }
+
+    #r3 {
+      color: white;
+      text-align: center;
+      background-color: rgb(72, 72, 206);
+      padding: 10px;
+      border-radius: 5px 5px 0 0;
+    }
+
+    #r4 {
+      padding: 20px;
+    }
+
+    .a {
+      margin-top: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #t1 {
+      background-color: rgb(128, 112, 112);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+    }
+
+    #t1 h1 {
+      background-color: darkgray;
+      color: black;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    button[type="submit"],
+    button[type="button"] {
+      width: 90%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button[type="submit"] {
+      background-color: rgb(77, 71, 156);
+      color: white;
+      margin: 20px auto;
+      display: block;
+    }
+
+    button[type="button"] {
+      background-color: red;
+      color: white;
+      margin: 10px auto;
+      display: block;
+    }
+
+    footer {
+      margin: 20px;
+      text-align: center;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="brand">حجز المواعيد</span>
+    <ul>
+     <li> <a href="{% url 'main_page' %}">الصفحة الرئيسية</a> </li>
+      <li><a href="{% url 'complaint' %}">صفحة التعليقات</a></li>
+      
+      <li><a href="{% url 'reserve' %}" class="active">حجز المواعيد</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div id="r2">
+      <div id="r3">ادخل المعلومات الشخصية</div>
+      <div id="r4">
+        <form action="{% url 'submit_reservation' %}" method="post">
+          {% csrf_token %}
+          <div class="a">
+            <label for="name">اسم المريض</label><br>
+            <input id="name" name="name" required type="text" placeholder="الاسم بالكامل">
+          </div>
+          <div class="a">
+            <label for="email">البريد الاكتروني</label><br>
+            <input id="email" name="email" required type="email" placeholder="ex@gmail.com">
+          </div>
+          <div class="a">
+            <label for="fon">رقم الهاتف</label><br>
+            <input id="fon" name="phone" required type="text" placeholder="رقم هاتفك">
+          </div>
+      </div>
+    </div>
+
+    <div id="t1">
+      <h1>حجز الموعد</h1>
+
+      <label for="data">اختر التاريخ</label><br>
+      <input type="date" id="data" name="date" required><br><br>
+
+      <label for="time">اختر الوقت</label><br>
+      <input type="time" id="time" name="time" required><br>
+
+      <button type="submit">حجز الآن</button>
+    </form>
+
+    <button type="button" onclick="clearFields()">إعادة التعيين</button>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2024 عيادة الدكتور علي. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script>
+  function clearFields() {
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("fon").value = "";
+    document.getElementById("data").value = "";
+    document.getElementById("time").value = "";
+  }
+</script>
+
+</body>
+</html>

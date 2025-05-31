@@ -1,0 +1,177 @@
+<!DOCTYPE html> 
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيادة الدكتور علي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(246, 217, 183);
+            font-family: Arial, sans-serif;
+        }
+         nav {
+      background-color: #198754; /* لون أخضر داكن مثل Bootstrap */
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: flex-end;
+      list-style: none;
+      margin: 0;
+      padding: 0 20px;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: #146c43; /* خلفية غامقة أنيقة */
+    }
+
+    nav .brand {
+      color: bisque;
+      font-weight: bold;
+      margin-left: auto;
+      padding: 0 20px;
+    }
+
+
+        header {
+            background-color: rgb(56, 147, 126);
+            color: bisque;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            text-align: right;
+        }
+
+        header a {
+            color: bisque;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        section, footer {
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        #div1, #div2 {
+            background-color: rgb(44, 58, 55);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #div1 {
+            background-color: rgb(56, 147, 126);
+        }
+
+        #div4 {
+            background-color: rgb(186, 165, 150);
+            padding: 20px;
+            border-radius: 3px;
+        }
+
+        .diva {
+            background-color: rgb(190, 205, 218);
+            border: solid 1px #999;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .diva h3 {
+            color: darkgreen;
+            margin-bottom: 5px;
+        }
+
+        .diva p {
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav>
+    <span class="brand"> الصفحة الرئيسية</span>
+    <ul>
+     <li> <a href="{% url 'main_page' %}" class="active">الصفحة الرئيسية</a> </li>
+      <li><a href="{% url 'complaint' %}">صفحة التعليقات</a></li>
+      
+      <li><li><a href="{% url 'reserve' %}">حجز المواعيد</a></li>
+    </li>
+    </ul>
+  </nav>
+
+    <header>
+        <a href="#">الصفحة الرئيسية</a>
+    </header>
+
+    <section>
+        <div id="div1">
+            <div>
+                <h1>معلومات عامة عن الدكتور:</h1>
+                <p>الدكتور علي هو طبيب أسنان ذو خبرة تمتد لثمان سنوات في مجال طب الأسنان. يتميز بقدراته الاستثنائية في تقديم الرعاية الشاملة والحديثة للمرضى. بفضل خبرته العميقة، يتمكن من التعامل مع مجموعة متنوعة من الحالات، بدءًا من العلاجات الأساسية إلى الإجراءات التجميلية المتقدمة. يلتزم بتحقيق أقصى درجات الراحة والنتائج الممتازة، مستخدمًا أحدث التقنيات والأدوات. اهتمامه بالتفاصيل وحرصه على رضا المرضى يجعله خيارًا مثاليًا لمن يبحثون عن رعاية أسنان متكاملة وعالية الجودة.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div id="div2">
+            <div>
+                <h1>معلومات عامة عن العيادة:</h1>
+                <p>عيادة متخصصة في أسنان الأطفال، تجميل الأسنان، الحشو وعلاج الجذور والأعصاب، علاج اللثة، جراحة وجه وفكين، تركيبات أسنان، أسنان المسنين، أشعة الأسنان وأسنان البالغين.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div id="div4">
+           <h1>آراء المرضى:</h1>
+
+{% for complaint in latest_complaints %}
+<div class="diva">
+    <h2>الاسم:</h2>
+    <h3>{{ complaint.name }}</h3>
+    <h2>ملاحظاته:</h2>
+    <p>{{ complaint.message }}</p>
+    <h2>التاريخ:</h2>
+    <small>{{ complaint.created_at|date:"Y-m-d H:i" }}</small>
+</div>
+{% empty %}
+<p>لا توجد شكاوى حتى الآن.</p>
+{% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 عيادة الدكتور علي. جميع الحقوق محفوظة.</p>
+    </footer>
+
+</body>
+</html>

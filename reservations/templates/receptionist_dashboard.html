@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة موظف الاستقبال</title>
+  
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #f4f4f4; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        th { background: #4CAF50; color: white; }
+        h1 { color: #333; }
+        .btn { padding: 6px 12px; margin: 2px; text-decoration: none; border-radius: 4px; }
+        .btn-delete { background: #e74c3c; color: white; }
+        .btn-edit { background: #f39c12; color: white; }
+        .btn-add { background: #2ecc71; color: white; }
+        form { margin-top: 20px; }
+        input { padding: 8px; margin: 5px; width: 20%; }
+        .scroll-table {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+}
+    </style>
+</head>
+<body>
+
+<h1>مواعيد الحجوزات</h1>
+<form method="get" action="">
+    <input type="text" name="q" placeholder="ابحث بالاسم" value="{{ request.GET.q }}">
+    <button class="btn btn-edit" type="submit">بحث</button>
+    <a href="{% url 'receptionist_dashboard' %}" class="btn btn-add">عرض الكل</a>
+</form>
+<div class='scroll-table'> 
+<table>
+    <tr>
+        <th>الاسم</th>
+        <th>الإيميل</th>
+        <th>الهاتف</th>
+        <th>التاريخ</th>
+        <th>الوقت</th>
+        <th>إجراءات</th>
+    </tr>
+    {% for appt in appointments %}
+    <tr>
+        <td>{{ appt.name }}</td>
+    <td>{{ appt.email }}</td>
+    <td>{{ appt.phone }}</td>
+    <td>{{ appt.date|date:"Y-m-d" }}</td>  <!-- التاريخ بصيغة موحدة -->
+    <td>{{ appt.time|time:"H:i" }}</td> 
+        <td>
+           
+         
+            <a class="btn btn-delete" href="{% url 'delete_appointment' appt.id %}"
+   onclick="return confirm('هل أنت متأكد أنك تريد حذف هذا الموعد؟');">
+   حذف
+</a>
+
+ 
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6">لا توجد نتائج مطابقة لعملية البحث.</td>
+    </tr>
+{% endfor %}
+</table>
+</div>
+
+<h2>إضافة موعد جديد</h2>
+<form method="post" action="{% url 'add_appointment' %}">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="الاسم" required>
+    <input type="email" name="email" placeholder="الإيميل" required>
+    <input type="text" name="phone" placeholder="الهاتف" required>
+    <input type="date" name="date" required>
+    <input type="time" name="time" required>
+    <button class="btn btn-add" type="submit">إضافة</button>
+</form>
+<hr>
+<h2>الشكاوى</h2>
+<div class='scroll-table'> 
+<table>
+    <tr>
+        <th>الاسم</th>
+        <th>الإيميل</th>
+        <th>محتوى الشكوى</th>
+        <th>تاريخ الشكوى</th>
+        <th>إجراءات</th>
+    </tr>
+    {% for complaint in complaints %}
+    <tr>
+        <td>{{ complaint.name }}</td>
+        <td>{{ complaint.email }}</td>
+        <td>{{ complaint.message }}</td>
+        <td>{{ complaint.created_at|date:"Y-m-d H:i" }}</td>
+        <td>
+            <a class="btn btn-delete"
+               href="{% url 'delete_complaint' complaint.id %}"
+               onclick="return confirm('هل أنت متأكد من حذف هذه الشكوى؟');">
+               حذف
+            </a>
+            <a class="btn btn-edit"
+   href="mailto:{{ complaint.email }}?subject=رد على الشكوى&body=مرحبًا {{ complaint.name }}،%0A%0Aشكرًا لتواصلك معنا. نود إبلاغك أننا استلمنا شكواك وسنقوم بمعالجتها.%0A%0Aمع التحية.">
+   رد
+</a>
+        </td>
+   
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">لا توجد شكاوى حالياً.</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+
+
+</body>
+</html>
