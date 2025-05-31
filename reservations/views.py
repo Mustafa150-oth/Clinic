@@ -93,5 +93,5 @@ def delete_complaint(request, complaint_id):
 
 def main_page(request):
     latest_complaints = Complaint.objects.order_by('-created_at')[:3]
-    return render(request, 'main_page.html', {'latest_complaints': latest_complaints})
+    return render(request, 'Main_Page.html', {'latest_complaints': latest_complaints})
 
